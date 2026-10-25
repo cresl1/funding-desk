@@ -3,7 +3,7 @@ name: agent
 # risk gate, and saves the result to the `data` branch. No real orders. Pause it from config.json.
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *"  # re-registered Oct 25
   workflow_dispatch:
 permissions:
   contents: write
