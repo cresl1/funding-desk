@@ -82,7 +82,7 @@
     for (const [c, pairs] of Object.entries(ST.scan || {})) {
       h += `<div class="coin">${c}-PERP</div>`;
       if (E.skips && E.skips[c]) h += `<div class="skipline">${esc(E.skips[c])}</div>`;
-      h += pairs.slice(0, 3).map(p => `<div class="opp"><div>short ${esc(vn(p.short))} / long ${esc(vn(p.long))}<div class="why">gap ${p3(p.gap)}/8h · net ${p3(p.net)} · ${esc(p.reason || '')}</div></div><span class="tag ${p.pass ? 't-pass' : 't-skip'}">${p.pass ? 'PASS' : 'SKIP'}</span></div>`).join('') || '<div class="empty">no venue pair with data</div>';
+      h += pairs.slice(0, 3).map(p => `<div class="opp"><div>short ${esc(vn(p.short))} / long ${esc(vn(p.long))}<div class="why">gap ${p3(p.gap)}/8h · net ${p3(p.net)}${p.reason && !/^net /.test(p.reason) ? ' · ' + esc(p.reason) : ''}</div></div><span class="tag ${p.pass ? 't-pass' : 't-skip'}">${p.pass ? 'PASS' : 'SKIP'}</span></div>`).join('') || '<div class="empty">no venue pair with data</div>';
     }
     $('aScan').innerHTML = h; $('aScanHint').textContent = `need net > ${cfg.entryNetPct}%`;
     // positions

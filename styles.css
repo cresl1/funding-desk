@@ -60,3 +60,4 @@ summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:n
 a{color:var(--blu)}code{font-size:12px;background:#0b1118;border:1px solid var(--line);border-radius:5px;padding:0 4px}
 .setup{font-size:13px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}.setup ol{padding-left:18px;margin:6px 0 0}.setup li{margin:4px 0}
 .simnote{font-size:13px;color:var(--mut)}.simnote .row-h{flex-wrap:wrap;margin:0}
+[hidden]{display:none!important}
