@@ -137,16 +137,16 @@
     $('positions').innerHTML = ST.positions.length ? ST.positions.map(p => {
       const qs = byVC[p.shortVenue + ':' + p.coin], ql = byVC[p.longVenue + ':' + p.coin];
       const u = FD.equityOf({ cash: 0, positions: [p] }, byVC), gap = qs && ql ? p3(qs.rate8h - ql.rate8h) : '—';
-      return `<div class="opp"><div><b>${p.coin}</b> short ${V[p.shortVenue].name} / long ${V[p.longVenue].name} · ${money(p.notional)}/leg<div class="why">opened ${tm(p.opened)} · funding ${money(p.funding)} · gap now ${gap}</div></div><b class="${u >= 0 ? 'pos' : 'neg'}">${money(u - p.entryFee)}</b></div>`;
+      return `<div class="opp"><div><b>${esc(p.coin)}</b> short ${V[p.shortVenue].name} / long ${V[p.longVenue].name} · ${money(p.notional)}/leg<div class="why">opened ${tm(p.opened)} · funding ${money(p.funding)} · gap now ${gap}</div></div><b class="${u >= 0 ? 'pos' : 'neg'}">${money(u - p.entryFee)}</b></div>`;
     }).join('') : 'None';
     // log
     const lg = ST.fills.slice().reverse().slice(0, 120);
     $('log').className = 'log' + (lg.length ? '' : ' empty');
     $('log').innerHTML = lg.length ? lg.map(f => {
       const t = `<span class="mut">${new Date(f.t).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span> `;
-      if (f.type === 'open') return `<div>${t}<b>OPEN</b> ${f.coin} short ${V[f.short].name} / long ${V[f.long].name} · ${money(f.notional)}/leg · fees ${money(f.fee)} · net ${f.net}%</div>`;
-      if (f.type === 'close') return `<div>${t}<b>CLOSE</b> ${f.coin} · <b class="${f.pnl > 0 ? 'pos' : 'neg'}">${money(f.pnl)}</b> · ${esc(f.why)}</div>`;
-      return `<div>${t}funding ${f.coin} ${V[f.venue].name} ${f.side} · ${f.periods} period${f.periods > 1 ? 's' : ''} · total ${money(f.amount)}</div>`;
+      if (f.type === 'open') return `<div>${t}<b>OPEN</b> ${esc(f.coin)} short ${V[f.short].name} / long ${V[f.long].name} · ${money(f.notional)}/leg · fees ${money(f.fee)} · net ${f.net}%</div>`;
+      if (f.type === 'close') return `<div>${t}<b>CLOSE</b> ${esc(f.coin)} · <b class="${f.pnl > 0 ? 'pos' : 'neg'}">${money(f.pnl)}</b> · ${esc(f.why)}</div>`;
+      return `<div>${t}funding ${esc(f.coin)} ${V[f.venue].name} ${f.side} · ${f.periods} period${f.periods > 1 ? 's' : ''} · total ${money(f.amount)}</div>`;
     }).join('') : 'No fills yet';
   }
   function renderClock() { $('updated').textContent = ST.lastStep ? ago(Date.now() - ST.lastStep) + ' ago' : '—'; }
@@ -171,7 +171,7 @@
       num('maxConsecLosses', 'Pause after losses in a row', 1, 1, 20) + num('staleSec', 'Max data age (s)', 10, 10, 3600) +
       num('maxPriceGapPct', 'Max mark price gap (%)', 0.1, 0.1, 5);
     h += '<fieldset><legend>Venues · taker fee % (base tier, tap source)</legend>' + Object.entries(V).map(([id, v]) =>
-      `<div class="fee"><input type="checkbox" data-en="${id}" ${S.enabled[id] !== false ? 'checked' : ''} aria-label="Use ${v.name}"><span>${v.name}${v.us ? ' <span class="us">US</span>' : ''} <a href="${v.feeSrc}" target="_blank" rel="noopener">source</a></span><input type="number" data-fee="${id}" value="${S.fees[id]}" step="0.005" min="0" max="1" inputmode="decimal" aria-label="${v.name} taker fee"></div>`).join('') + '</fieldset>';
+      `<div class="fee"><input type="checkbox" data-en="${id}" ${S.enabled[id] !== false ? 'checked' : ''} aria-label="Use ${esc(v.name)}"><span>${esc(v.name)}${v.us ? ' <span class="us">US</span>' : ''} <a href="${v.feeSrc}" target="_blank" rel="noopener">source</a></span><input type="number" data-fee="${id}" value="${S.fees[id]}" step="0.005" min="0" max="1" inputmode="decimal" aria-label="${esc(v.name)} taker fee"></div>`).join('') + '</fieldset>';
     h += '<div class="full"><button type="button" id="btnReset">Reset paper account</button><button type="button" id="btnStreak">Clear loss streak</button></div>';
     $('settings').innerHTML = h;
     $('settings').addEventListener('change', ev => {

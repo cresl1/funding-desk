@@ -36,3 +36,14 @@ test('UI text never mentions the assistant', () => {
   const h = read('index.html').replace(/<script[\s\S]*?<\/script>/g, '');
   assert.doesNotMatch(h, /\bTab\b|\bAI\b/);
 });
+
+test('web build standard (Oct 25): data is escaped before innerHTML, focus ring on links, reduced motion', () => {
+  for (const f of ['app.js', 'agent-view.js']) {
+    const s = read(f);
+    for (const v of ['p.coin', 't.coin', 'f.coin', 'v.name']) assert.ok(!s.includes('${' + v + '}'), f + ' renders ' + v + ' unescaped');
+  }
+  const c = read('styles.css');
+  assert.match(c, /a:focus-visible,button:focus-visible/);
+  assert.match(c, /prefers-reduced-motion:reduce/);
+  for (const m of (read('index.html') + read('app.js') + read('agent-view.js')).matchAll(/target="_blank"[^>]*/g)) assert.match(m[0], /noopener/);
+});

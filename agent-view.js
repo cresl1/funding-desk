@@ -88,14 +88,14 @@
     $('aScan').innerHTML = h; $('aScanHint').textContent = `need net > ${cfg.entryNetPct}%`;
     // positions
     $('aPos').className = E.positions.length ? '' : 'empty';
-    $('aPos').innerHTML = E.positions.length ? E.positions.map(p => `<div class="opp"><div><b>${p.coin}</b> short ${esc(vn(p.shortVenue))} / long ${esc(vn(p.longVenue))} · ${money(p.notional)}/leg<div class="why">opened ${tm(p.opened)} · funding ${money(p.funding)} · fees ${money(p.entryFee)}</div></div></div>`).join('') : 'None';
+    $('aPos').innerHTML = E.positions.length ? E.positions.map(p => `<div class="opp"><div><b>${esc(p.coin)}</b> short ${esc(vn(p.shortVenue))} / long ${esc(vn(p.longVenue))} · ${money(p.notional)}/leg<div class="why">opened ${tm(p.opened)} · funding ${money(p.funding)} · fees ${money(p.entryFee)}</div></div></div>`).join('') : 'None';
     // log: closed trades first, then recent fills
-    const tr = E.trades.slice().reverse().slice(0, 30).map(t => `<div><span class="mut">${tm(t.closed)}</span> <b>CLOSE</b> ${t.coin} · <b class="${t.pnl > 0 ? 'pos' : 'neg'}">${money(t.pnl)}</b> · ${esc(t.why)}</div>`);
+    const tr = E.trades.slice().reverse().slice(0, 30).map(t => `<div><span class="mut">${tm(t.closed)}</span> <b>CLOSE</b> ${esc(t.coin)} · <b class="${t.pnl > 0 ? 'pos' : 'neg'}">${money(t.pnl)}</b> · ${esc(t.why)}</div>`);
     const fl = E.fills.slice().reverse().slice(0, 60).map(f => {
       const t = `<span class="mut">${tm(f.t)}</span> `;
-      if (f.type === 'open') return `<div>${t}<b>OPEN</b> ${f.coin} short ${esc(vn(f.short))} / long ${esc(vn(f.long))} · ${money(f.notional)}/leg · net ${f.net}%</div>`;
-      if (f.type === 'close') return `<div>${t}<b>CLOSE</b> ${f.coin} · <b class="${f.pnl > 0 ? 'pos' : 'neg'}">${money(f.pnl)}</b> · ${esc(f.why)}</div>`;
-      return `<div>${t}funding ${f.coin} ${esc(vn(f.venue))} ${esc(f.side || '')} · ${money(f.amount)}</div>`;
+      if (f.type === 'open') return `<div>${t}<b>OPEN</b> ${esc(f.coin)} short ${esc(vn(f.short))} / long ${esc(vn(f.long))} · ${money(f.notional)}/leg · net ${f.net}%</div>`;
+      if (f.type === 'close') return `<div>${t}<b>CLOSE</b> ${esc(f.coin)} · <b class="${f.pnl > 0 ? 'pos' : 'neg'}">${money(f.pnl)}</b> · ${esc(f.why)}</div>`;
+      return `<div>${t}funding ${esc(f.coin)} ${esc(vn(f.venue))} ${esc(f.side || '')} · ${money(f.amount)}</div>`;
     });
     $('aLog').className = 'log' + (fl.length ? '' : ' empty');
     $('aLog').innerHTML = fl.length ? fl.join('') : `No trades yet. The agent checks every 5 min and only trades when a gap clears ${cfg.entryNetPct}% after fees.`;

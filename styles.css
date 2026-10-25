@@ -2,7 +2,7 @@
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 h1,h2{margin:0;font-weight:650}h1{font-size:20px}h2{font-size:15px;letter-spacing:.02em}
 button{font:inherit;color:inherit;border:0;border-radius:10px;padding:9px 14px;background:#1d2733;cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--blu);outline-offset:2px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--blu);outline-offset:2px}
 button.primary{background:var(--blu);color:#04111f;font-weight:650}button.ghost{background:transparent;border:1px solid var(--line);padding:6px 10px;font-size:13px}
 button.link{background:none;padding:0;color:var(--mut);text-decoration:underline}
 .gate{min-height:100vh;display:grid;place-items:center;padding:24px}
@@ -61,3 +61,8 @@ a{color:var(--blu)}code{font-size:12px;background:#0b1118;border:1px solid var(-
 .setup{font-size:13px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}.setup ol{padding-left:18px;margin:6px 0 0}.setup li{margin:4px 0}
 .simnote{font-size:13px;color:var(--mut)}.simnote .row-h{flex-wrap:wrap;margin:0}
 [hidden]{display:none!important}
+
+/* Web build standard (Oct 25): reduced motion, 44px tap areas on small header buttons without changing the look */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.tabs button,#aReload{position:relative}
+.tabs button::after,#aReload::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
