@@ -10,7 +10,7 @@
   const GH = `https://github.com/${OWNER}/${REPO}`;
   const EDIT = `${GH}/edit/main/config.json`, RUNS = `${GH}/actions/workflows/agent.yml`, SECRETS = `${GH}/settings/secrets/actions`;
   const KEY = 'fd.dk.v1', STALL_MS = 20 * 60e3, EVERY_MS = 5 * 60e3;
-  let ST = null, fetchedAt = 0, err = null, PRIV = null, started = false;
+  let ST = null, lastApi = 0, fetchedAt = 0, err = null, PRIV = null, started = false;
 
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const money = x => (x < 0 ? '−$' : '$') + Math.abs(+x || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -35,12 +35,13 @@
     return JSON.parse(new TextDecoder().decode(pt));
   }
 
-  // ---- data: raw file (CDN, may lag a few minutes) and the API copy (fresh); keep whichever is newer
+  // ---- data: raw file (CDN copy, can lag up to 5 min) plus, when that looks old, the API copy (fresh; max every 2.5 min
+  //      to stay inside GitHub's 60 requests/hour for visitors); keep whichever is newer
   async function getJSON(url, headers) {
     const r = await fetch(url, { cache: 'no-store', headers }); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json();
   }
   async function load() {
-    const got = await Promise.allSettled([getJSON(RAW + '?t=' + Date.now()), (!ST || Date.now() - ST.agent.lastRun > 6 * 60e3) ? getJSON(API, { Accept: 'application/vnd.github.raw+json' }) : Promise.reject(0)]);
+    const got = await Promise.allSettled([getJSON(RAW + '?t=' + Date.now()), (!ST || Date.now() - ST.agent.lastRun > 5.5 * 60e3) && Date.now() - lastApi > 150e3 ? (lastApi = Date.now(), getJSON(API, { Accept: 'application/vnd.github.raw+json' })) : Promise.reject(0)]);
     const ok = got.filter(g => g.status === 'fulfilled' && g.value && g.value.agent).map(g => g.value).sort((a, b) => b.agent.lastRun - a.agent.lastRun);
     if (ok.length) { if (!ST || ok[0].agent.lastRun >= ST.agent.lastRun) ST = ok[0]; err = null; fetchedAt = Date.now(); }
     else if (!ST) err = 'Agent has not saved any state yet';
