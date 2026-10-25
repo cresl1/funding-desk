@@ -1,0 +1,203 @@
+{
+ "generatedAt": 1792888055407,
+ "runner": "local",
+ "venues": {
+  "binance": {
+   "ok": false,
+   "error": "HTTP 451 (blocked from US)"
+  },
+  "bybit": {
+   "ok": false,
+   "error": "HTTP 403 (blocked from US)"
+  },
+  "okx": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "okx",
+     "coin": "SOL",
+     "rateHour": 0.0000036826096309,
+     "rate8h": 0.0000294608770472,
+     "apr": 0.032259660366684,
+     "intervalH": 8,
+     "nextFunding": 1792915200000,
+     "mark": 102.35,
+     "ts": 1792888055436
+    },
+    "ETH": {
+     "venue": "okx",
+     "coin": "ETH",
+     "rateHour": 0.0000015242953205875,
+     "rate8h": 0.0000121943625647,
+     "apr": 0.0133528270083465,
+     "intervalH": 8,
+     "nextFunding": 1792915200000,
+     "mark": 2356.4,
+     "ts": 1792888055436
+    }
+   }
+  },
+  "coinbase": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "coinbase",
+     "coin": "SOL",
+     "rateHour": 0,
+     "rate8h": 0,
+     "apr": 0,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 102.28,
+     "ts": 1792888055455
+    },
+    "ETH": {
+     "venue": "coinbase",
+     "coin": "ETH",
+     "rateHour": 0.000018,
+     "rate8h": 0.000144,
+     "apr": 0.15768,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 2355,
+     "ts": 1792888055455
+    }
+   }
+  },
+  "coinbaseintl": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "coinbaseintl",
+     "coin": "SOL",
+     "rateHour": 0.000099,
+     "rate8h": 0.000792,
+     "apr": 0.8672399999999999,
+     "intervalH": 1,
+     "nextFunding": null,
+     "mark": 118.2,
+     "ts": 1790845200000
+    },
+    "ETH": {
+     "venue": "coinbaseintl",
+     "coin": "ETH",
+     "rateHour": 0.000039,
+     "rate8h": 0.000312,
+     "apr": 0.34164,
+     "intervalH": 1,
+     "nextFunding": null,
+     "mark": 2692.77,
+     "ts": 1790845200000
+    }
+   }
+  },
+  "bitget": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "bitget",
+     "coin": "SOL",
+     "rateHour": 0.000001375,
+     "rate8h": 0.000011,
+     "apr": 0.012045,
+     "intervalH": 8,
+     "nextFunding": 1792915200000,
+     "mark": 102.382,
+     "ts": 1792888055449
+    },
+    "ETH": {
+     "venue": "bitget",
+     "coin": "ETH",
+     "rateHour": 0.0000055,
+     "rate8h": 0.000044,
+     "apr": 0.04818,
+     "intervalH": 8,
+     "nextFunding": 1792915200000,
+     "mark": 2356.68,
+     "ts": 1792888055449
+    }
+   }
+  },
+  "kraken": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "kraken",
+     "coin": "SOL",
+     "rateHour": 0.000017786245833333,
+     "rate8h": 0.000142289966666664,
+     "apr": 0.15580751349999708,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 102.29044424764,
+     "ts": 1792888055456
+    },
+    "ETH": {
+     "venue": "kraken",
+     "coin": "ETH",
+     "rateHour": 0.000006775966666667,
+     "rate8h": 0.000054207733333336,
+     "apr": 0.059357468000002925,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 2354.57307737306,
+     "ts": 1792888055456
+    }
+   }
+  },
+  "hyperliquid": {
+   "ok": true,
+   "quotes": {
+    "ETH": {
+     "venue": "hyperliquid",
+     "coin": "ETH",
+     "rateHour": 0.0000125,
+     "rate8h": 0.0001,
+     "apr": 0.10950000000000001,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 2356.2,
+     "ts": 1792888055407
+    },
+    "SOL": {
+     "venue": "hyperliquid",
+     "coin": "SOL",
+     "rateHour": 0.0000125,
+     "rate8h": 0.0001,
+     "apr": 0.10950000000000001,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 102.343,
+     "ts": 1792888055407
+    }
+   }
+  },
+  "dydx": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "dydx",
+     "coin": "SOL",
+     "rateHour": -6.25e-8,
+     "rate8h": -5e-7,
+     "apr": -0.0005475,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 102.27,
+     "ts": 1792888055448
+    },
+    "ETH": {
+     "venue": "dydx",
+     "coin": "ETH",
+     "rateHour": -0.00000435714285714286,
+     "rate8h": -0.00003485714285714288,
+     "apr": -0.038168571428571454,
+     "intervalH": 1,
+     "nextFunding": 1792890000000,
+     "mark": 2353.116867,
+     "ts": 1792888055448
+    }
+   }
+  }
+ }
+}

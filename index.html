@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f14">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Funding Desk">
+<title>Funding Desk</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="gate" class="gate">
+  <form id="gateForm" class="gate-card" autocomplete="off">
+    <h1>Funding Desk</h1>
+    <label for="pw">Password</label>
+    <input id="pw" type="password" inputmode="text" autocomplete="current-password" required>
+    <button type="submit">Unlock</button>
+    <p id="gateErr" class="err" role="alert"></p>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <div class="banner" role="status">PAPER MODE — no real money</div>
+  <header class="top">
+    <h1>Funding Desk</h1>
+    <div class="actions">
+      <button id="btnStep" class="primary">Refresh</button>
+      <label class="toggle"><input type="checkbox" id="auto" checked> Auto</label>
+    </div>
+  </header>
+
+  <main>
+    <section class="card wallet" aria-label="Paper wallet">
+      <div class="big"><span class="lbl">Paper wallet</span><strong id="equity">—</strong><span id="pnl" class="sub">—</span></div>
+      <div class="stats">
+        <div><span class="lbl">Open</span><b id="openCount">0</b></div>
+        <div><span class="lbl">W / L</span><b id="wl">0 / 0</b></div>
+        <div><span class="lbl">Fills</span><b id="fillCount">0</b></div>
+        <div><span class="lbl">Updated</span><b id="updated">—</b></div>
+      </div>
+      <canvas id="curve" height="90" aria-label="Equity curve"></canvas>
+    </section>
+
+    <section class="card" aria-labelledby="hBreakers">
+      <div class="row-h"><h2 id="hBreakers">Risk gates</h2><button id="btnPause" class="ghost">Pause desk</button></div>
+      <ul id="breakers" class="breakers"></ul>
+    </section>
+
+    <section class="card" aria-labelledby="hScan">
+      <div class="row-h"><h2 id="hScan">Funding scanner</h2><span class="hint">rate per 8h · APR</span></div>
+      <div id="scanner"></div>
+    </section>
+
+    <section class="card" aria-labelledby="hOpp">
+      <div class="row-h"><h2 id="hOpp">Setups</h2><span class="hint" id="oppHint"></span></div>
+      <div id="opps"></div>
+    </section>
+
+    <section class="card" aria-labelledby="hPos">
+      <h2 id="hPos">Open positions</h2>
+      <div id="positions" class="empty">None</div>
+    </section>
+
+    <section class="card" aria-labelledby="hLog">
+      <h2 id="hLog">Trade log</h2>
+      <div id="log" class="log empty">No fills yet</div>
+    </section>
+
+    <section class="card">
+      <details id="settingsBox">
+        <summary><h2>Settings</h2></summary>
+        <form id="settings" class="settings"></form>
+      </details>
+    </section>
+    <p class="foot">Paper trading only. Funding rates are public market data. Not financial advice. <button id="btnLock" class="link">Lock</button></p>
+  </main>
+</div>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
