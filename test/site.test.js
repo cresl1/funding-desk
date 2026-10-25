@@ -25,8 +25,8 @@ test('password is stored only as a SHA-256 hash', () => {
     for (const f of ['index.html', 'app.js', 'core.js', 'README.md', 'styles.css']) assert.ok(!read(f).includes(pw), 'plain password found in ' + f);
   }
 });
-test('no live trading code: no order endpoints, no API key fields', () => {
-  const all = ['app.js', 'core.js', 'scripts/fetch-rates.mjs'].map(read).join('\n');
+test('no order code in the page, the engine or the paper agent (live orders live only in scripts/live/)', () => {
+  const all = ['app.js', 'agent-view.js', 'core.js', 'scripts/fetch-rates.mjs', 'scripts/sources.mjs', 'scripts/agent-lib.mjs'].map(read).join('\n').replace(/COINBASE_API_(KEY_NAME|PRIVATE_KEY)/g, ''); // secret NAMES shown in setup steps are fine
   assert.doesNotMatch(all, /\/order|placeOrder|apiKey|api_key|X-MBX-APIKEY|signature=/i);
 });
 test('no placeholder text left', () => {

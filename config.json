@@ -1,0 +1,52 @@
+{
+  "_help": "Settings for the 24/7 agent. Edit a value, then 'Commit changes'; the agent uses it on its next run (about 5 min). paused=true stops new entries. live.enabled=false keeps it PAPER ONLY.",
+  "paused": false,
+  "startWallet": 850,
+  "sizePct": 10,
+  "entryNetPct": 0.14,
+  "exitGapPct": 0.05,
+  "holdPeriods": 1,
+  "dailyLossPct": 3,
+  "maxConsecLosses": 3,
+  "staleSec": 600,
+  "maxPriceGapPct": 0.5,
+  "fees": {
+    "hyperliquid": 0.045,
+    "okx": 0.05,
+    "dydx": 0.05,
+    "bitget": 0.06,
+    "binance": 0.05,
+    "bybit": 0.055,
+    "coinbase": 0.05,
+    "kraken": 0.05,
+    "coinbaseintl": 0.05
+  },
+  "venues": {
+    "hyperliquid": true,
+    "okx": true,
+    "dydx": true,
+    "bitget": true,
+    "coinbase": true,
+    "kraken": true,
+    "binance": false,
+    "bybit": false,
+    "coinbaseintl": false
+  },
+  "resetWallet": 0,
+  "clearLossStreak": 0,
+  "live": {
+    "_help": "REAL MONEY on your Coinbase account. Off until you set enabled to true (needs the two Coinbase secrets). Caps are hard limits.",
+    "enabled": false,
+    "maxNotionalUsd": 250,
+    "maxLossUsd": 25,
+    "maxOrdersPerDay": 4,
+    "coins": [
+      "ETH",
+      "SOL"
+    ],
+    "horizonHours": 24,
+    "safetyFactor": 2,
+    "maxSlippagePct": 0.15,
+    "rearm": 0
+  }
+}

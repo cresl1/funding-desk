@@ -1,0 +1,62 @@
+name: agent
+# The Funding Desk agent: every 5 min it fetches funding rates, runs one PAPER trading step with every
+# risk gate, and saves the result to the `data` branch. No real orders. Pause it from config.json.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: funding-desk-agent
+  cancel-in-progress: false
+jobs:
+  step:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      TZ: America/New_York   # the daily loss cap resets at midnight Eastern
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Gate tests (the agent only trades if these pass)
+        id: tests
+        continue-on-error: true
+        shell: bash
+        run: node --test 2>&1 | tail -n 30
+      - name: Load previous agent state
+        shell: bash
+        run: |
+          set +e
+          git ls-remote --exit-code --heads origin data > /dev/null; rc=$?
+          set -e
+          if [ "$rc" = "0" ]; then
+            git fetch -q --depth=1 origin data
+            if git cat-file -e FETCH_HEAD:state.json 2>/dev/null; then git show FETCH_HEAD:state.json > /tmp/prev.json; echo "previous state loaded"; else echo "data branch has no state yet"; fi
+          elif [ "$rc" = "2" ]; then echo "no data branch yet"; else echo "could not reach the data branch; not overwriting state"; exit 1; fi
+      - name: Agent step (paper)
+        env:
+          TESTS_OK: ${{ steps.tests.outcome }}
+          RUN_EVENT: ${{ github.event_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COINBASE_API_KEY_NAME: ${{ secrets.COINBASE_API_KEY_NAME }}
+          COINBASE_API_PRIVATE_KEY: ${{ secrets.COINBASE_API_PRIVATE_KEY }}
+          DESK_KEY: ${{ secrets.DESK_KEY }}
+        run: node scripts/agent.mjs --prev /tmp/prev.json --config config.json --out /tmp/out
+      - name: Save state to the data branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd /tmp/out
+          git init -q && git checkout -q -b data
+          git config user.name "funding-desk-agent" && git config user.email "actions@users.noreply.github.com"
+          git add state.json rates.json && git commit -qm "agent run $(date -u +%FT%TZ)"
+          ok=0
+          for i in 1 2 3; do
+            if git push -f -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data; then ok=1; break; fi
+            sleep 5
+          done
+          [ "$ok" = "1" ]

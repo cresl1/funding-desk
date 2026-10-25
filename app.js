@@ -10,10 +10,10 @@
 
   // ---------- gate
   async function sha256(t) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
-  function unlock() { $('gate').hidden = true; $('gate').style.display = 'none'; $('app').hidden = false; start(); }
+  function unlock() { $('gate').hidden = true; $('gate').style.display = 'none'; $('app').hidden = false; AgentView.start(start); } // simulator starts when its view is opened
   $('gateForm').addEventListener('submit', async e => {
     e.preventDefault();
-    if (await sha256($('pw').value.trim()) === PW_HASH) { localStorage.setItem(LS.u, PW_HASH); unlock(); }
+    if (await sha256($('pw').value.trim()) === PW_HASH) { localStorage.setItem(LS.u, PW_HASH); await AgentView.rememberKey($('pw').value.trim()); unlock(); }
     else { $('gateErr').textContent = 'Wrong password'; $('pw').select(); }
   });
   $('btnLock').onclick = () => { localStorage.removeItem(LS.u); location.reload(); };
@@ -72,12 +72,12 @@
     } catch (e) { console.error(e); }
     busy = false; $('btnStep').textContent = 'Refresh'; render();
   }
-  function schedule() { clearInterval(timer); if ($('auto').checked) timer = setInterval(() => { if (!document.hidden) refresh(); }, 30000); }
+  function schedule() { clearInterval(timer); if ($('auto').checked) timer = setInterval(() => { if (!document.hidden && !$('simView').hidden) refresh(); }, 30000); }
   function start() {
     if (started) return; started = true;
     buildSettings(); render(); refresh(); schedule();
     $('btnStep').onclick = refresh; $('auto').onchange = schedule;
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && $('auto').checked) refresh(); });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && $('auto').checked && !$('simView').hidden) refresh(); });
     $('btnPause').onclick = () => { ST.paused = !ST.paused; save(); render(); };
     setInterval(renderClock, 1000);
   }

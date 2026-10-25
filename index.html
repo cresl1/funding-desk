@@ -25,15 +25,65 @@
   <div class="banner" role="status">PAPER MODE — no real money</div>
   <header class="top">
     <h1>Funding Desk</h1>
-    <div class="actions">
-      <button id="btnStep" class="primary">Refresh</button>
-      <label class="toggle"><input type="checkbox" id="auto" checked> Auto</label>
-    </div>
+    <nav class="tabs" role="tablist"><button id="tabAgent" role="tab" aria-selected="true">Agent</button><button id="tabSim" role="tab" aria-selected="false">Simulator</button></nav>
   </header>
 
-  <main>
+  <main id="agentView">
+    <section class="card wallet" aria-label="Agent">
+      <div class="statusrow"><span id="aPill" class="pill stalled">AGENT: …</span><span id="aPaused" class="pill paused" hidden>PAUSED</span><span id="aRuns" class="hint"></span></div>
+      <div id="aWhen" class="hint when">loading…</div>
+      <div class="big"><span class="lbl">Agent paper wallet · runs 24/7 every 5 min</span><strong id="aEquity">—</strong><span id="aPnl" class="sub">—</span></div>
+      <div class="stats">
+        <div><span class="lbl">Open</span><b id="aOpen">0</b></div>
+        <div><span class="lbl">W / L</span><b id="aWL">0 / 0</b></div>
+        <div><span class="lbl">Trades</span><b id="aTrades">0</b></div>
+        <div><span class="lbl">Since</span><b id="aSince">—</b></div>
+      </div>
+      <canvas id="aCurve" height="90" aria-label="Agent equity curve"></canvas>
+      <p id="aErr" class="warn" hidden></p>
+    </section>
+
+    <section class="card" aria-labelledby="hABr">
+      <div class="row-h"><h2 id="hABr">Risk gates</h2><button id="aReload" class="ghost">Reload</button></div>
+      <ul id="aBreakers" class="breakers"></ul>
+    </section>
+
+    <section class="card" aria-labelledby="hAScan">
+      <div class="row-h"><h2 id="hAScan">Last scan</h2><span class="hint" id="aScanHint"></span></div>
+      <div id="aScan"></div>
+    </section>
+
+    <section class="card" aria-labelledby="hAPos">
+      <h2 id="hAPos">Open positions</h2>
+      <div id="aPos" class="empty">None</div>
+    </section>
+
+    <section class="card" aria-labelledby="hALog">
+      <div class="row-h"><h2 id="hALog">Trade log</h2><span class="hint" id="aTradeCount"></span></div>
+      <div id="aLog" class="log empty">No trades yet</div>
+    </section>
+
+    <section class="card" aria-labelledby="hALive">
+      <div class="row-h"><h2 id="hALive">Coinbase · live mode</h2><span id="aLiveTag" class="tag t-skip">LIVE OFF</span></div>
+      <div id="aLive"></div>
+    </section>
+
+    <section class="card" aria-labelledby="hAVen">
+      <h2 id="hAVen">Venues (last run)</h2>
+      <div id="aVenues"></div>
+    </section>
+
+    <section class="card span2" aria-labelledby="hASet">
+      <div class="row-h"><h2 id="hASet">Agent settings</h2><a id="aEdit" class="btnlink" target="_blank" rel="noopener">Change settings</a></div>
+      <div id="aSettings"></div>
+      <p class="skipline">To <b>pause</b> the agent: open <a id="aPauseLink" target="_blank" rel="noopener">config.json</a>, tap the pencil, change <code>"paused": false</code> to <code>true</code>, then Commit changes. It stops new entries on its next run (open positions are still managed). Set it back to <code>false</code> to resume. <a id="aRunsLink" target="_blank" rel="noopener">Run history</a></p>
+    </section>
+  </main>
+
+  <main id="simView" hidden>
+    <div class="card span2 simnote"><div class="row-h"><span>Simulator: runs only while this page is open, on this phone. The agent above runs on its own.</span><div class="actions"><button id="btnStep" class="primary">Refresh</button><label class="toggle"><input type="checkbox" id="auto" checked> Auto</label></div></div></div>
     <section class="card wallet" aria-label="Paper wallet">
-      <div class="big"><span class="lbl">Paper wallet</span><strong id="equity">—</strong><span id="pnl" class="sub">—</span></div>
+      <div class="big"><span class="lbl">Simulator wallet (this phone)</span><strong id="equity">—</strong><span id="pnl" class="sub">—</span></div>
       <div class="stats">
         <div><span class="lbl">Open</span><b id="openCount">0</b></div>
         <div><span class="lbl">W / L</span><b id="wl">0 / 0</b></div>
@@ -74,10 +124,10 @@
         <form id="settings" class="settings"></form>
       </details>
     </section>
-    <p class="foot">Paper trading only. Funding rates are public market data. Not financial advice. <button id="btnLock" class="link">Lock</button></p>
-  </main>
+  <p class="foot">Paper trading only unless you turn live mode on. Not financial advice. <button id="btnLock" class="link">Lock</button></p>
 </div>
 <script src="core.js"></script>
+<script src="agent-view.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
