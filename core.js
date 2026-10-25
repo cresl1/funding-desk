@@ -247,7 +247,7 @@
 
   function breakers(state, quoteList, s, now) {
     const byVC = indexQuotes(quoteList), e = equityOf(state, byVC), dayPnl = e - state.dayStartEquity;
-    const stale = quoteList.filter(q => q && s.enabled[q.venue] !== false && (now - q.ts) / 1000 > s.staleSec).map(q => VENUES[q.venue].name);
+    const stale = quoteList.filter(q => q && s.enabled[q.venue] !== false && (now - q.ts) / 1000 > s.staleSec).map(q => VENUES[q.venue].name).filter((n, i, a) => a.indexOf(n) === i);
     const gaps = [];
     for (const c of COINS) {
       const qs = quoteList.filter(q => q && q.coin === c && s.enabled[q.venue] !== false && (now - q.ts) / 1000 <= s.staleSec);
@@ -260,7 +260,7 @@
       { id: 'size', name: 'Fixed size', tripped: !(s.sizePct > 0 && s.sizePct <= Math.min(25, s.maxSizePct)), detail: `${s.sizePct}% of wallet = $${sizeFor(e, s.sizePct, s.maxSizePct).toFixed(2)}/leg` },
       { id: 'dailyLoss', name: 'Daily loss cap', tripped: dayPnl <= -pct(s.dailyLossPct) * state.dayStartEquity, detail: `today ${dayPnl >= 0 ? '+' : '−'}$${Math.abs(dayPnl).toFixed(2)} / cap ${s.dailyLossPct}%` },
       { id: 'lossStreak', name: 'Loss streak', tripped: state.consecLosses >= s.maxConsecLosses, detail: `${state.consecLosses} of ${s.maxConsecLosses}` },
-      { id: 'stale', name: 'Stale data', tripped: stale.length > 0, detail: stale.length ? stale.join(', ') + ` > ${s.staleSec}s` : `all feeds < ${s.staleSec}s` },
+      { id: 'stale', name: 'Stale data', tripped: stale.length > 0, detail: stale.length ? stale.join(', ') + ` older than ${s.staleSec}s, their pairs blocked` : `all feeds < ${s.staleSec}s` },
       { id: 'priceGap', name: 'Price gap', tripped: gaps.length > 0, detail: gaps.length ? gaps.join('; ') : `marks within ${s.maxPriceGapPct}%` },
       { id: 'onePerCoin', name: '1 per coin', tripped: false, detail: `${state.positions.length} open` }
     ];
