@@ -33,7 +33,7 @@ td{padding:6px 4px;border-top:1px solid var(--line);text-align:right;white-space
 td small{display:block;color:var(--mut);font-size:11px}
 .coin{font-weight:700;margin:10px 0 2px;font-size:13px;color:var(--mut);letter-spacing:.05em}.coin:first-child{margin-top:0}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}.d-live{background:var(--grn)}.d-snap{background:var(--amb)}.d-off{background:#4a5563}
-.us{font-size:10px;font-weight:700;color:var(--blu);margin-left:4px}
+.us{font-size:10px;font-weight:700;color:var(--blu);margin-left:5px;border:1px solid rgba(78,161,255,.4);border-radius:4px;padding:0 3px}
 .opp{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px}.opp:first-of-type{border-top:0}
 .opp .why{color:var(--mut);font-size:12px}.opp b{font-variant-numeric:tabular-nums}
 .tag{font-size:11px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;align-self:flex-start}.t-pass{background:rgba(47,210,122,.15);color:var(--grn)}.t-skip{background:#1d2733;color:var(--mut)}

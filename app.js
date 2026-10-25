@@ -11,7 +11,6 @@
   // ---------- gate
   async function sha256(t) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
   function unlock() { $('gate').hidden = true; $('gate').style.display = 'none'; $('app').hidden = false; start(); }
-  if (localStorage.getItem(LS.u) === PW_HASH) unlock();
   $('gateForm').addEventListener('submit', async e => {
     e.preventDefault();
     if (await sha256($('pw').value.trim()) === PW_HASH) { localStorage.setItem(LS.u, PW_HASH); unlock(); }
@@ -40,9 +39,9 @@
     hyperliquid: () => j('https://api.hyperliquid.xyz/info', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"type":"metaAndAssetCtxs"}' }),
     okx: () => perCoin(async c => ({ fr: await j(`https://www.okx.com/api/v5/public/funding-rate?instId=${c}-USDT-SWAP`), mk: await j(`https://www.okx.com/api/v5/public/mark-price?instType=SWAP&instId=${c}-USDT-SWAP`) })),
     dydx: () => j('https://indexer.dydx.trade/v4/perpetualMarkets'),
-    bitget: () => perCoin(async c => ({ fr: await j(`https://api.bitget.com/api/v2/mix/market/current-fund-rate?symbol=${c}USDT&productType=usdt-futures`), px: await j(`https://api.bitget.com/api/v2/mix/market/symbol-price?symbol=${c}USDT&productType=usdt-futures`) })),
-    binance: () => perCoin(c => j(`https://fapi.binance.com/fapi/v1/premiumIndex?symbol=${c}USDT`)),
-    bybit: () => perCoin(c => j(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${c}USDT`))
+    bitget: () => perCoin(async c => ({ fr: await j(`https://api.bitget.com/api/v2/mix/market/current-fund-rate?symbol=${c}USDT&productType=usdt-futures`), px: await j(`https://api.bitget.com/api/v2/mix/market/symbol-price?symbol=${c}USDT&productType=usdt-futures`) }))
+    // Binance and Bybit refuse US connections and send no CORS headers, so the browser does not try them;
+    // the scheduled job attempts them every run and the scanner shows its answer.
   };
   async function fetchAll() {
     const snapP = j(SNAPSHOT_URL + '?t=' + Date.now()).catch(() => j('data/rates.json?t=' + Date.now())).catch(() => null);
@@ -85,7 +84,7 @@
 
   // ---------- render
   const money = x => (x < 0 ? '−$' : '$') + Math.abs(x).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const p3 = x => (x * 100).toFixed(4).replace(/0+$/, '').replace(/\.$/, '') + '%';
+  const p3 = x => Math.abs(x) < 5e-7 ? '0%' : (x * 100).toFixed(4).replace(/0+$/, '').replace(/\.$/, '') + '%';
   const ago = ms => { const s = Math.max(0, Math.round(ms / 1000)); return s < 90 ? s + 's' : s < 5400 ? Math.round(s / 60) + 'm' : Math.round(s / 3600) + 'h'; };
   const until = t => { if (!t) return '—'; const m = Math.round((t - Date.now()) / 60000); return m <= 0 ? 'now' : m < 90 ? m + 'm' : Math.floor(m / 60) + 'h ' + (m % 60) + 'm'; };
   const tm = t => new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -128,7 +127,7 @@
       if (ST.skips && ST.skips[c]) oh += `<div class="skipline">Engine: ${esc(ST.skips[c])}</div>`;
       sc[c].slice(0, 6).forEach(p => {
         nAll++; if (p.pass) nPass++;
-        oh += `<div class="opp"><div>Short <b>${V[p.shortVenue].name}</b> / Long <b>${V[p.longVenue].name}</b><div class="why">gap ${p3(p.gap)} − fees ${p3(p.fees)} = net <b class="${p.net > 0 ? 'pos' : 'neg'}">${p3(p.net)}</b>${p.pass ? '' : ' · ' + esc(p.reason)}</div></div><span class="tag ${p.pass ? 't-pass' : 't-skip'}">${p.pass ? 'PASS' : 'SKIP'}</span></div>`;
+        oh += `<div class="opp"><div>Short <b>${V[p.shortVenue].name}</b> / Long <b>${V[p.longVenue].name}</b><div class="why">gap ${p3(p.gap)} − fees ${p3(p.fees)} = net <b class="${p.net > 0 ? 'pos' : 'neg'}">${p3(p.net)}</b>${p.pass ? '' : ' · need &gt; ' + S.entryNetPct + '%'}</div></div><span class="tag ${p.pass ? 't-pass' : 't-skip'}">${p.pass ? 'PASS' : 'SKIP'}</span></div>`;
       });
       if (sc[c].length > 6) oh += `<div class="skipline">+${sc[c].length - 6} more pairs skipped</div>`;
     }
@@ -185,4 +184,5 @@
     $('btnReset').onclick = () => { if (confirm('Reset the paper account to ' + money(S.startWallet) + '? This clears positions and the log.')) { ST = FD.newState(S, Date.now()); save(); refresh(); } };
     $('btnStreak').onclick = () => { ST.consecLosses = 0; save(); render(); };
   }
+  if (localStorage.getItem(LS.u) === PW_HASH) unlock(); // returning visitor: stays unlocked on this device
 })();
