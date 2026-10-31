@@ -1,0 +1,180 @@
+{
+ "generatedAt": 1793436829364,
+ "runner": "github-actions",
+ "venues": {
+  "binance": {
+   "ok": false,
+   "error": "HTTP 451 (blocked from US)"
+  },
+  "bybit": {
+   "ok": false,
+   "error": "HTTP 403 (blocked from US)"
+  },
+  "dydx": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "dydx",
+     "coin": "SOL",
+     "rateHour": -0.0000025377358490566,
+     "rate8h": -0.0000203018867924528,
+     "apr": -0.022230566037735815,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 95.1832752,
+     "ts": 1793436828477
+    },
+    "ETH": {
+     "venue": "dydx",
+     "coin": "ETH",
+     "rateHour": -0.00000309198113207547,
+     "rate8h": -0.00002473584905660376,
+     "apr": -0.027085754716981117,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 2237.75,
+     "ts": 1793436828477
+    }
+   }
+  },
+  "coinbaseintl": {
+   "ok": false,
+   "error": "no SOL/ETH data in answer"
+  },
+  "coinbase": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "coinbase",
+     "coin": "SOL",
+     "rateHour": 0.000002,
+     "rate8h": 0.000016,
+     "apr": 0.01752,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 95.195,
+     "ts": 1793436828483
+    },
+    "ETH": {
+     "venue": "coinbase",
+     "coin": "ETH",
+     "rateHour": 0.000009,
+     "rate8h": 0.000072,
+     "apr": 0.07884,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 2238.25,
+     "ts": 1793436828483
+    }
+   }
+  },
+  "okx": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "okx",
+     "coin": "SOL",
+     "rateHour": -7.74207515025e-7,
+     "rate8h": -0.0000061936601202,
+     "apr": -0.006782057831619,
+     "intervalH": 8,
+     "nextFunding": 1793462400000,
+     "mark": 95.32,
+     "ts": 1793436828451
+    },
+    "ETH": {
+     "venue": "okx",
+     "coin": "ETH",
+     "rateHour": -0.0000110563828420125,
+     "rate8h": -0.0000884510627361,
+     "apr": -0.09685391369602951,
+     "intervalH": 8,
+     "nextFunding": 1793462400000,
+     "mark": 2239.66,
+     "ts": 1793436828451
+    }
+   }
+  },
+  "kraken": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "kraken",
+     "coin": "SOL",
+     "rateHour": 0.000020694170833333,
+     "rate8h": 0.000165553366666664,
+     "apr": 0.18128093649999708,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 95.29261774985,
+     "ts": 1793436828484
+    },
+    "ETH": {
+     "venue": "kraken",
+     "coin": "ETH",
+     "rateHour": -0.0000199121125,
+     "rate8h": -0.0001592969,
+     "apr": -0.1744301055,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 2238.19555627944,
+     "ts": 1793436828484
+    }
+   }
+  },
+  "bitget": {
+   "ok": true,
+   "quotes": {
+    "SOL": {
+     "venue": "bitget",
+     "coin": "SOL",
+     "rateHour": -0.00001,
+     "rate8h": -0.00008,
+     "apr": -0.08760000000000001,
+     "intervalH": 8,
+     "nextFunding": 1793462400000,
+     "mark": 95.326,
+     "ts": 1793436828478
+    },
+    "ETH": {
+     "venue": "bitget",
+     "coin": "ETH",
+     "rateHour": -0.000010625,
+     "rate8h": -0.000085,
+     "apr": -0.093075,
+     "intervalH": 8,
+     "nextFunding": 1793462400000,
+     "mark": 2239.78,
+     "ts": 1793436828478
+    }
+   }
+  },
+  "hyperliquid": {
+   "ok": true,
+   "quotes": {
+    "ETH": {
+     "venue": "hyperliquid",
+     "coin": "ETH",
+     "rateHour": 0.0000021837,
+     "rate8h": 0.0000174696,
+     "apr": 0.019129212,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 2239.6,
+     "ts": 1793436828429
+    },
+    "SOL": {
+     "venue": "hyperliquid",
+     "coin": "SOL",
+     "rateHour": 0.0000125,
+     "rate8h": 0.0001,
+     "apr": 0.10950000000000001,
+     "intervalH": 1,
+     "nextFunding": 1793437200000,
+     "mark": 95.313,
+     "ts": 1793436828429
+    }
+   }
+  }
+ }
+}
